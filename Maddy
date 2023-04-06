@@ -1,0 +1,52 @@
+import React, { useState } from 'react';
+
+const Solitaire = () => {
+  const [deck, setDeck] = useState([]);
+
+  const buildDeck = () => {
+    const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+    const ranks = ['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king'];
+    const newDeck = [];
+
+    for (let suit of suits) {
+      for (let rank of ranks) {
+        newDeck.push({
+          suit,
+          rank,
+        });
+      }
+    }
+
+    setDeck(newDeck);
+  };
+
+  const shuffleDeck = () => {
+    const newDeck = [...deck];
+
+    for (let i = newDeck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newDeck[i], newDeck[j]] = [newDeck[j], newDeck[i]];
+    }
+
+    setDeck(newDeck);
+  };
+
+  const renderDeck = () => {
+    return deck.map((card, index) => (
+      <div key={index}>
+        {card.rank} of {card.suit}
+      </div>
+    ));
+  };
+
+  return (
+    <div>
+      <h1>Solitaire</h1>
+      <button onClick={buildDeck}>New Game</button>
+      <button onClick={shuffleDeck}>Shuffle Deck</button>
+      {deck.length > 0 && <div>{renderDeck()}</div>}
+    </div>
+  );
+};
+
+export default Solitaire;
